@@ -33,7 +33,7 @@ router.post("/", upload.single("photo"), async (req, res) => {
             photo: req.file ? req.file.filename : null
         })
         await newLocation.save()
-        const imagePath = "/uploads/" + req.file.filename
+        const imagePath = req.file ? "/uploads/" + req.file.filename : null
 
         res.json({
             message: "Report submitted successfully",
