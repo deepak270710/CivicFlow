@@ -219,7 +219,7 @@
 
         let complaintId = null
 
-        fetch("http://localhost:3000/api/location")
+        fetch("/api/location")
             .then(res => res.json())
             .then(data => {
 
@@ -239,7 +239,7 @@
                 document.getElementById("statusSelect").value = complaint.status
 
                 document.getElementById("photo").src =
-                    "http://localhost:3000/uploads/" + complaint.photo
+                    "/uploads/" + complaint.photo
 
                 const coords = complaint.location.split(",")
 
@@ -272,7 +272,7 @@
 
         function updateStatus() {
 
-            fetch("http://localhost:3000/api/location/" + complaintId, {
+            fetch("/api/location/" + complaintId, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

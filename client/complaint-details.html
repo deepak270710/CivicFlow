@@ -174,7 +174,7 @@
         const caseId = params.get("caseId")
         console.log("Case ID:", caseId)
 
-        fetch("http://localhost:3000/api/complaints/" + caseId)
+        fetch("/api/complaints/" + caseId)
             .then(res => res.json())
             .then(complaint => {
                 const date = new Date(complaint.createdAt)
@@ -201,8 +201,7 @@
                     statusElement.classList.add("resolved")
                 }
 
-                document.getElementById("photo").src =
-                    "http://localhost:3000" + complaint.photo
+                document.getElementById("photo").src = complaint.photo
 
                 const coords = complaint.location.split(",").map(v => v.trim())
 

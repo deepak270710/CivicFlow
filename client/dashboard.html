@@ -446,7 +446,7 @@ cursor:pointer;
       const cards = document.getElementById("complaintCards")
       cards.innerHTML = ""
 
-      const response = await fetch("http://localhost:3000/api/location")
+      const response = await fetch("/api/location")
       const complaints = await response.json()
 
       complaints.forEach(c => {
@@ -553,7 +553,7 @@ ${c.status}
 
         try {
 
-          const response = await fetch("http://localhost:3000/api/location", {
+          const response = await fetch("/api/location", {
             method: "POST",
             body: formData
           })

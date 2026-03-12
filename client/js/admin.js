@@ -83,7 +83,7 @@ form.addEventListener("submit", function (e) {
 
 async function loadComplaints() {
 
-    const response = await fetch("http://localhost:3000/api/complaints");
+    const response = await fetch("/api/complaints");
 
     const complaints = await response.json();
 
