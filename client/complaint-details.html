@@ -201,7 +201,7 @@
                     statusElement.classList.add("resolved")
                 }
 
-                document.getElementById("photo").src = complaint.photo
+                document.getElementById("photo").src = "/uploads/" + complaint.photo
 
                 const coords = complaint.location.split(",").map(v => v.trim())
 
