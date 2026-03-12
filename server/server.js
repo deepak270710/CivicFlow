@@ -25,14 +25,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 app.use("/api/location", locationRoutes)
 app.use("/api/auth", authRoutes)
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, "../client")))
-
-// Important for deployment (SPA routing)
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/index.html"))
-})
-
 // Reset database route (optional)
 app.get("/reset-db", async (req, res) => {
 
@@ -41,6 +33,14 @@ app.get("/reset-db", async (req, res) => {
 
     res.send("Database cleared")
 
+})
+
+// Serve frontend
+app.use(express.static(path.join(__dirname, "../client")))
+
+// Important for deployment (SPA routing)
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/index.html"))
 })
 
 // Get complaint by caseId
