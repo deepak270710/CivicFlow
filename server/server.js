@@ -35,14 +35,6 @@ app.get("/reset-db", async (req, res) => {
 
 })
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, "../client")))
-
-// Important for deployment (SPA routing)
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/index.html"))
-})
-
 // Get complaint by caseId
 app.get("/api/complaints/:caseId", async (req, res) => {
 
@@ -74,6 +66,13 @@ app.get("/api/complaints/:caseId", async (req, res) => {
 })
 
 
+// Serve frontend
+app.use(express.static(path.join(__dirname, "../client")))
+
+// Important for deployment (SPA routing)
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/index.html"))
+})
 
 // Use Render port
 const PORT = process.env.PORT || 3000
