@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Poppins;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: white;
+    }
+
+    /* header */
+
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    /* layout */
+
+    .container {
+      width: 95%;
+      margin: auto;
+      padding: 30px 0;
+    }
+
+    /* stats */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #020617;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+    }
+
+    .stat-card h2 {
+      font-size: 28px;
+      margin-top: 5px;
+    }
+
+    /* table */
+
+    .table-container {
+      background: #020617;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #1e293b;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    th {
+      color: #94a3b8;
+    }
+
+    .status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    /* colors */
+
+    .pending {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .inprogress {
+      background: rgba(250, 204, 21, 0.15);
+      color: #facc15;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+    }
+
+    .resolved {
+      background: rgba(52, 211, 153, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+    }
+
+    /* buttons */
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .resolve-btn {
+      background: #22c55e;
+      color: white;
+    }
+
+    /* map */
+
+    #map {
+      height: 400px;
+      margin-top: 30px;
+      border-radius: 12px;
+    }
+
+    .action-btn {
+      background: #3b82f6;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .admin-panel {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mode-btn {
+      background: #111827;
+      color: white;
+      border: 1px solid #1f2937;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    /* Light Mode */
+
+    body.light-mode {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    body.light-mode .stat-card,
+    body.light-mode .table-container {
+      background: white;
+      color: #0f172a;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>Admin Complaint Dashboard</h1>
+
+    <div class="admin-panel">
+
+      <span id="adminName">👤 Admin</span>
+
+      <button class="mode-btn" id="modeBtn" onclick="toggleMode()">
+        Light Mode
+      </button>
+
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
+
+    </div>
+
+  </header>
+
+  <div class="container">
+
+    <!-- Stats -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <p>Total Complaints</p>
+        <h2 id="total">0</h2>
+      </div>
+
+      <div class="stat-card">
+        <p>Pending</p>
+        <h2 id="pending">0</h2>
+      </div>
+
+      <div class="stat-card">
+        <p>Resolved</p>
+        <h2 id="resolved">0</h2>
+      </div>
+
+    </div>
+
+
+    <!-- Complaint Table -->
+
+    <div class="table-container">
+
+      <h3>Complaint List</h3>
+
+      <table id="complaintTable">
+
+        <thead>
+          <tr>
+            <th>Case ID</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- Map -->
+
+    <div id="map"></div>
+
+  </div>
+
+
+
+  <script>
+    fetch("http://localhost:3000/api/location")
+      .then(res => res.json())
+      .then(complaints => {
+
+        let table = document.querySelector("#complaintTable tbody");
+
+        let total = complaints.length;
+        let pending = 0;
+        let resolved = 0;
+
+        complaints.forEach((c, index) => {
+
+          if (c.status === "Pending") pending++;
+          if (c.status === "Resolved" || c.status === "Fixed") resolved++;
+
+          let row = `
+<tr onclick="openComplaint('${c.caseId}')" style="cursor:pointer">
+
+<td>${c.caseId}</td>
+<td>${c.title}</td>
+<td>${c.category}</td>
+<td>${c.location}</td>
+<td>${new Date(c.createdAt).toLocaleString()}</td>
+
+<td>
+<span class="status ${c.status.toLowerCase().replace(' ', '')}">
+${c.status}
+</span>
+</td>
+
+<td>
+<button class="action-btn"
+onclick="event.stopPropagation(); openComplaint('${c.caseId}')">
+View
+</button>
+</td>
+
+</tr>
+`;
+
+          table.innerHTML += row;
+
+        });
+
+        document.getElementById("total").innerText = total;
+        document.getElementById("pending").innerText = pending;
+        document.getElementById("resolved").innerText = resolved;
+
+      });
+
+
+    /* map */
+
+    let map = new google.maps.Map(
+      document.getElementById("map"),
+      {
+        zoom: 12,
+        center: { lat: 20.2961, lng: 85.8245 }
+      }
+    );
+
+    complaints.forEach(c => {
+      let coords = c.location.split(",");
+      if (coords.length === 2) {
+        let iconColor = "red";
+        if (c.status === "In Progress") {
+          iconColor = "yellow";
+        }
+        if (c.status === "Resolved") {
+          iconColor = "green";
+        }
+        let marker = new google.maps.Marker({
+          position: {
+            lat: parseFloat(coords[0]),
+            lng: parseFloat(coords[1])
+          },
+          map: map,
+          icon: "http://maps.google.com/mapfiles/ms/icons/" + iconColor + "-dot.png"
+        });
+
+      }
+
+    });
+    function openComplaint(caseId) {
+      window.location.href =
+        "admin-complaint.html?caseId=" + caseId;
+    }
+
+    /* show admin name */
+
+    const admin = localStorage.getItem("loggedInUser")
+
+    if (admin) {
+      document.getElementById("adminName").innerText = "👤 " + admin
+    }
+
+    /* toggle theme */
+
+    function toggleMode() {
+
+      let body = document.body
+      let btn = document.getElementById("modeBtn")
+
+      body.classList.toggle("light-mode")
+
+      if (body.classList.contains("light-mode")) {
+        btn.innerText = "Dark Mode"
+        localStorage.setItem("theme", "light")
+      }
+      else {
+        btn.innerText = "Light Mode"
+        localStorage.setItem("theme", "dark")
+      }
+
+    }
+
+    window.onload = function () {
+
+      const savedTheme = localStorage.getItem("theme")
+
+      if (savedTheme === "light") {
+        document.body.classList.add("light-mode")
+        document.getElementById("modeBtn").innerText = "Dark Mode"
+      }
+
+    }
+
+    /* logout */
+
+    function logout() {
+      localStorage.removeItem("loggedInUser")
+      window.location.href = "admin-login.html"
+    }
+  </script>
+
+</body>
+
+</html>

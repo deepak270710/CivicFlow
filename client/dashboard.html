@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Complaints Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: white;
+      min-height: 100vh;
+    }
+
+    /* container */
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 0;
+    }
+
+    /* header */
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    /* buttons */
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .mode-btn {
+      background: #111827;
+      color: white;
+      border: 1px solid #1f2937;
+      margin-right: 10px;
+    }
+
+    .mode-btn:hover {
+      background: #1f2937;
+    }
+
+    .report-btn {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      color: white;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .report-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 25px rgba(59, 130, 246, 0.6);
+    }
+
+    /* form */
+
+    .form-container {
+      margin-top: 35px;
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    /* inputs */
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: white;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.6);
+    }
+
+    textarea {
+      height: 110px;
+      resize: none;
+    }
+
+    /* submit button */
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      color: white;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(56, 189, 248, 0.6);
+    }
+
+    /* complaint cards */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    /* card */
+
+    .card {
+      background: rgba(2, 6, 23, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    /* card layout */
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .card p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    /* status tags */
+
+    .status {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* colors */
+
+    .pending {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .progress {
+      background: rgba(250, 204, 21, 0.15);
+      color: #facc15;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+    }
+
+    .resolved {
+      background: rgba(52, 211, 153, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+    }
+
+    /* section title */
+
+    h3 {
+      margin-top: 40px;
+      font-weight: 500;
+    }
+
+    /* responsive */
+
+    @media(max-width:768px) {
+
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+
+    /* LIGHT MODE */
+
+    body.light-mode {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    body.light-mode .card {
+      background: white;
+      color: #0f172a;
+    }
+
+    body.light-mode .form-container {
+      background: white;
+      color: #0f172a;
+    }
+
+    body.light-mode input,
+    body.light-mode textarea,
+    body.light-mode select {
+      background: #f8fafc;
+      color: #0f172a;
+      border: 1px solid #cbd5f5;
+    }
+
+    body.light-mode .subtitle {
+      color: #475569;
+    }
+
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #usernameDisplay {
+      font-weight: 500;
+      color: #60a5fa;
+      margin-right: 10px;
+    }
+
+    .logout-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
+
+    .card h3 {
+      color: #60a5fa;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <div class="container">
+
+    <div class="top-bar">
+
+      <div>
+        <h1>Your Complaints Overview</h1>
+        <p class="subtitle">Track the issues you have reported to your municipality.</p>
+      </div>
+
+      <div class="user-panel">
+
+        <span id="usernameDisplay">👤 User</span>
+
+        <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Light Mode</button>
+
+        <button class="report-btn" id="toggleBtn" onclick="toggleForm()">
+          Report New Complaint
+        </button>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Complaint Form -->
+
+    <div class="form-container" id="complaintForm">
+
+      <h2>Report New Complaint</h2>
+
+      <label>Title</label>
+      <input type="text" id="title" placeholder="e.g. Potholes near bus stand">
+
+      <label>Description</label>
+      <textarea id="description" placeholder="Briefly describe the issue..."></textarea>
+
+      <label>Category</label>
+      <select id="category">
+        <option>Select category</option>
+        <option>Road</option>
+        <option>Garbage</option>
+        <option>Water</option>
+        <option>Electricity</option>
+      </select>
+
+      <label>Location</label>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+
+        <input type="text" id="location" placeholder="Click Fetch to get location" style="flex:1;">
+
+        <button type="button" onclick="getLocation()" style="
+padding:10px 16px;
+background:#3b82f6;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+">
+          Fetch Location
+        </button>
+
+      </div>
+      <div id="map" style="height:300px;width:100%;margin-top:20px;border-radius:10px;"></div>
+
+      <label>Upload Image</label>
+      <input type="file">
+
+      <button type="button" class="submit-btn" onclick="submitComplaint()">
+        Submit Complaint
+      </button>
+      <label>Case ID</label>
+      <input type="text" id="caseId" readonly>
+
+    </div>
+
+
+
+    <!-- Complaint Cards -->
+
+    <h3 style="margin-top:40px;">Your complaints</h3>
+    <div class="cards" id="complaintCards"></div>
+  </div>
+
+  <script>
+
+    function toggleForm() {
+
+      let form = document.getElementById("complaintForm");
+      let btn = document.getElementById("toggleBtn");
+      let cards = document.getElementById("complaintCards");
+
+      if (form.style.display === "none" || form.style.display === "") {
+
+        form.style.display = "block";
+        cards.style.display = "none";
+        btn.innerText = "Return to Home";
+
+      } else {
+
+        form.style.display = "none";
+        cards.style.display = "grid";
+        btn.innerText = "Report New Complaint";
+
+      }
+
+    }
+
+    function toggleMode() {
+
+      let body = document.body;
+      let btn = document.getElementById("modeBtn");
+
+      body.classList.toggle("light-mode");
+
+      if (body.classList.contains("light-mode")) {
+        btn.innerText = "Dark Mode";
+      } else {
+        btn.innerText = "Light Mode";
+      }
+
+    }
+
+    async function displayComplaints() {
+
+      const cards = document.getElementById("complaintCards")
+      cards.innerHTML = ""
+
+      const response = await fetch("http://localhost:3000/api/location")
+      const complaints = await response.json()
+
+      complaints.forEach(c => {
+
+        let statusClass = "pending"
+
+        if (c.status === "In Progress") {
+          statusClass = "progress"
+        }
+
+        if (c.status === "Resolved" || c.status === "Fixed") {
+          statusClass = "resolved"
+        }
+
+        let card = `
+<div class="card">
+
+<div class="card-top">
+
+<h3>
+<a href="complaint-details.html?caseId=${c.caseId}" style="color:#60a5fa;text-decoration:none;">
+${c.caseId}
+</a>
+</h3>
+
+<span class="status ${statusClass}">
+${c.status}
+</span>
+
+</div>
+
+<p><b>Title:</b> ${c.title}</p>
+<p><b>Location:</b> ${c.location}</p>
+<p><b>Submitted:</b> ${new Date(c.createdAt).toLocaleString()}</p>
+
+</div>
+`
+
+        cards.innerHTML += card
+
+      })
+
+    }
+    // Map + Location
+
+    let map;
+    let marker;
+
+    function getLocation() {
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        alert("Geolocation not supported");
+      }
+
+    }
+
+    function showPosition(position) {
+
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+
+      document.getElementById("location").value =
+        latitude + ", " + longitude;
+
+      let location = { lat: latitude, lng: longitude };
+
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: location
+      });
+
+      marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+
+    }
+    async function submitComplaint() {
+
+      const title = document.getElementById("title").value
+      const description = document.getElementById("description").value
+      const category = document.getElementById("category").value
+      const location = document.getElementById("location").value
+
+      navigator.geolocation.getCurrentPosition(async function (position) {
+
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+
+        const photo = document.querySelector("input[type='file']").files[0]
+
+        const formData = new FormData()
+
+        formData.append("title", title)
+        formData.append("description", description)
+        formData.append("category", category)
+        formData.append("location", location)
+        formData.append("latitude", latitude)
+        formData.append("longitude", longitude)
+        formData.append("photo", photo)
+        // formData.append("caseId", caseId)
+
+        try {
+
+          const response = await fetch("http://localhost:3000/api/location", {
+            method: "POST",
+            body: formData
+          })
+
+          const result = await response.json()
+
+          // Save complaint locally for dashboard
+          const complaint = {
+            title,
+            description,
+            category,
+            location,
+            status: "Pending",
+            date: new Date().toISOString(),
+            caseId: result.caseId,
+            photo: result.image
+          }
+
+          let complaints = JSON.parse(localStorage.getItem("complaints")) || []
+
+          complaints.push(complaint)
+
+          localStorage.setItem("complaints", JSON.stringify(complaints))
+
+          alert("Complaint submitted successfully")
+          document.getElementById("complaintForm").style.display = "none"
+          document.getElementById("complaintCards").style.display = "grid"
+          document.getElementById("toggleBtn").innerText = "Report New Complaint"
+          displayComplaints()
+        } catch (error) {
+
+          console.log(error)
+          alert("Error submitting complaint")
+
+        }
+
+      })
+
+    }
+    const user = localStorage.getItem("loggedInUser")
+    if (!user) {
+      window.location.href = "login.html"
+    }
+    document.getElementById("usernameDisplay").innerText =
+      "👤 " + user
+
+    function logout() {
+      localStorage.removeItem("loggedInUser")
+      window.location.href = "login.html"
+    }
+    displayComplaints()
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjvZGb6q8WmS7nw_sVPoYFBY5GGKs4QV0"></script>
+</body>
+
+</html>

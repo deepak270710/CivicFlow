@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CivicFlow – Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="login">
+  <header class="auth-header">
+    <a href="index.html" class="auth-header__logo">
+      <span class="navbar__logo-mark">CF</span>
+      <span class="navbar__logo-text">CivicFlow</span>
+    </a>
+    <button id="themeToggle" class="theme-toggle" type="button">
+      Dark mode
+    </button>
+  </header>
+
+  <main class="auth-layout">
+    <section class="auth-card">
+      <h1 class="auth-card__title">Welcome back</h1>
+      <p class="auth-card__subtitle">
+        Log in to submit and track civic complaints.
+      </p>
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+          <p class="form-error" id="loginEmailError"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input
+            type="password"
+            id="loginPassword"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+          <p class="form-error" id="loginPasswordError"></p>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full">
+          Login
+        </button>
+        <p class="form-success" id="loginSuccess"></p>
+      </form>
+
+      <p class="auth-card__footer">
+        New to CivicFlow?
+        <a href="register.html">Create an account</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

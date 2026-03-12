@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>CivicFlow – Civic Complaint Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-page="landing">
+    <header class="navbar">
+        <div class="navbar__logo">
+            <span class="navbar__logo-mark">CF</span>
+            <span class="navbar__logo-text">CivicFlow</span>
+        </div>
+        <nav class="navbar__links">
+            <a href="#features" class="navbar__link">Features</a>
+            <a href="#how-it-works" class="navbar__link">How it works</a>
+            <a href="#contact" class="navbar__link">Contact</a>
+        </nav>
+        <div class="navbar__actions">
+            <button id="themeToggle" class="theme-toggle" type="button">
+                Dark mode
+            </button>
+            <a href="login.html" class="btn btn--ghost">Login</a>
+            <a href="register.html" class="btn btn--primary">Register</a>
+            <a href="admin-login.html" class="btn btn--primary">Admin</a>
+        </div>
+        <button class="navbar__toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero__content">
+                <h1 class="hero__title">
+                    Smart Civic Complaint Management for Modern Cities
+                </h1>
+                <p class="hero__subtitle">
+                    Empower citizens to report issues in seconds and enable authorities to
+                    track, prioritize, and resolve complaints in real time.
+                </p>
+                <div class="hero__actions">
+                    <a href="register.html" class="btn btn--primary btn--lg">
+                        Get Started
+                    </a>
+                    <a href="dashboard.html" class="btn btn--ghost btn--lg">
+                        Open Dashboard
+                    </a>
+                </div>
+                <div class="hero__meta">
+                    Trusted design for Smart India Hackathon–ready demos.
+                </div>
+            </div>
+            <div class="hero__illustration">
+                <div class="hero-card hero-card--primary">
+                    <span class="hero-card__label">Live Complaints</span>
+                    <h2 id="liveCount" class="hero-card__value">0</h2>
+                </div>
+                <div class="hero-card hero-card--secondary">
+                    <span class="hero-card__label">Avg. Resolution Time</span>
+                    <span class="hero-card__value">36 hrs</span>
+                </div>
+                <div class="hero-card hero-card--tertiary">
+                    <span class="hero-card__label">Citizen Satisfaction</span>
+                    <span class="hero-card__value">92%</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section section--padded">
+            <div class="section__header">
+                <h2 class="section__title">Why CivicFlow?</h2>
+                <p class="section__subtitle">
+                    A single platform for citizens, municipalities, and admin teams.
+                </p>
+            </div>
+            <div class="grid grid--features">
+                <article class="feature-card">
+                    <div class="feature-card__icon">📍</div>
+                    <h3 class="feature-card__title">Location-Aware Complaints</h3>
+                    <p class="feature-card__body">
+                        Citizens can precisely mark issue locations to help authorities
+                        dispatch the right teams faster.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-card__icon">⚡</div>
+                    <h3 class="feature-card__title">Real-Time Status Tracking</h3>
+                    <p class="feature-card__body">
+                        Transparent complaint lifecycle from Pending to Resolved with clear,
+                        color-coded statuses.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-card__icon">📊</div>
+                    <h3 class="feature-card__title">Actionable Analytics</h3>
+                    <p class="feature-card__body">
+                        Admins get instant insights on workload, pending counts, and
+                        resolution performance.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-card__icon">🤝</div>
+                    <h3 class="feature-card__title">Citizen First Experience</h3>
+                    <p class="feature-card__body">
+                        Minimal steps, responsive design, and intuitive interactions tuned
+                        for real-world adoption.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section section--alt section--padded">
+            <div class="section__header">
+                <h2 class="section__title">How It Works</h2>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <span class="step__badge">1</span>
+                    <h3 class="step__title">Citizens Report</h3>
+                    <p class="step__body">
+                        Citizens log in, describe the issue, attach photos, and share the
+                        exact location.
+                    </p>
+                </div>
+                <div class="step">
+                    <span class="step__badge">2</span>
+                    <h3 class="step__title">Admins Triage</h3>
+                    <p class="step__body">
+                        Complaints are prioritized by category and severity with a single
+                        admin dashboard.
+                    </p>
+                </div>
+                <div class="step">
+                    <span class="step__badge">3</span>
+                    <h3 class="step__title">Teams Resolve</h3>
+                    <p class="step__body">
+                        Field teams receive clear tasks, update progress, and close cases
+                        once resolved.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section section--padded section--cta">
+            <div class="section__header">
+                <h2 class="section__title">Ready for your next demo?</h2>
+                <p class="section__subtitle">
+                    Use CivicFlow as a foundation for your Smart India Hackathon
+                    presentation or upcoming pilot.
+                </p>
+            </div>
+            <a href="register.html" class="btn btn--primary btn--lg">
+                Create a Free Account
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="footer__text">
+            © <span id="year"></span> CivicFlow. Built for civic innovation.
+        </p>
+        <div class="footer__links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
