@@ -1,5 +1,5 @@
 
-# 🚧 Smart Road Issue Reporting System
+# 🚧 CivicFlow
 
 ![Node.js](https://img.shields.io/badge/Node.js-Backend-green)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
@@ -7,7 +7,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-Frontend-yellow)
 ![License](https://img.shields.io/badge/License-Educational-blue)
 
-A **web-based complaint reporting system** that allows citizens to report road issues such as potholes and damaged roads.
+A **web-based complaint reporting system** that allows citizens to report issues such as potholes and damaged roads.
 Users can upload photos and share location, while administrators manage complaints through an interactive dashboard.
 
 ---
@@ -120,7 +120,8 @@ road-issue-reporting-system
 │   ├── routes
 │   │   ├── authRoutes.js
 │   │   └── locationRoutes.js
-│   └── server.js
+│   ├── server.js
+|   └── uploads
 │
 ├── client
 │   ├── index.html
@@ -132,7 +133,6 @@ road-issue-reporting-system
 │   ├── admin-complaint.html
 │   └── script.js
 │
-├── uploads
 │
 └── README.md
 ```
